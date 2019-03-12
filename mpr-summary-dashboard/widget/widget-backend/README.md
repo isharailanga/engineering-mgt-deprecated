@@ -7,3 +7,4 @@ engineering-mgt/mpr-summary-dashboard/widget/**widget-backend**
 ```
 mvn clean install
 ```
+Place the resulted .jar in <SP_HOME>/libs
