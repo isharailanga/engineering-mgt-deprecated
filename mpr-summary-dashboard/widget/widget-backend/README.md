@@ -1,4 +1,4 @@
-# mpr-backend-service
+# mpr-widget-backend
 
 This is to generate an intermediate service which will act as the backend of the MPR-Summary dashboard widget. 
 
