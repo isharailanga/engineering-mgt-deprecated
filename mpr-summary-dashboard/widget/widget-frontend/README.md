@@ -1,4 +1,4 @@
-# mpr-summary-widget #
+# mpr-summary-widget 
 
 To install the dependencies required to to build this widget, navigate to the engineering-mgt/mpr-summary-dashboard/widget/**widget-frontend** directory and issue the following command.
 ```
