@@ -30,7 +30,6 @@ service orderMgt on httpListener {
         if (payload == null) {
             payload = "Failed To get summery data data";
         }
-        //io:println(payload.length());
         // Set the JSON payload in the outgoing response message.
         response.setJsonPayload(untaint payload);
 
@@ -53,7 +52,6 @@ service orderMgt on httpListener {
             payload = "Failed To get product data data";
         }
 
-        //io:println(payload.length());
         // Set the JSON payload in the outgoing response message.
         response.setJsonPayload(untaint payload);
 
