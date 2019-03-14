@@ -22,6 +22,7 @@ TabContainer.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
+// styles
 const darkTheme = createMuiTheme({
     palette: {
         type: 'dark'
@@ -174,7 +175,6 @@ class CodeCoverage extends Component {
             return <p>Loading...</p>
         } else {
             this.state.chartData = getChartData(this.state.chartSummary);
-            console.log(this.state.chartData);
             return (
                 <MuiThemeProvider theme={this.props.muiTheme.name === 'dark' ? darkTheme : lightTheme}>
                     <PageWrapper>
