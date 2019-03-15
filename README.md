@@ -17,7 +17,7 @@ it shows how code coverage has changed in last 3 months in a line chart.
 
 ### Merged PR Summary Dashboard
 
-This Repo contains both Merged PR dashboard and Merged PR Summary dashboard.
+This contains both Merged PR dashboard and Merged PR Summary dashboard.
 
 *Merged PR dashboard*
 
