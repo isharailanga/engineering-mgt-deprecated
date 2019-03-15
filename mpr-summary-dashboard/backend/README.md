@@ -47,21 +47,21 @@ timer.schedule=0 0 10 ? * TUE *
 - Setup [ballerina 0.964](https://drive.google.com/drive/folders/1mafkQ1zc4ZuxsgWwAll7Svdxhy7q5UkP) runtime on a local folder
 - Execute below from engineering-mgt/mpr-summary-dashboard/backend and save the generated token for future use.
 ```
-<Ballerina runtime>/bin/ballerina run src/org/wso2/setup/setup.bal
+  <Ballerina runtime>/bin/ballerina run src/org/wso2/setup/setup.bal
 ``` 
 
 
 - From engineering-mgt/mpr-summary-dashboard/backend execute the following commands
 ```
-<Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/daily_updater.bal
-<Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/dashboard_services.bal
-<Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/pr_status_emailer.bal
+  <Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/daily_updater.bal
+  <Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/dashboard_services.bal
+  <Ballerina runtime>/bin/ballerina build src/org/wso2/mprdash/pr_status_emailer.bal
 ```
 This will create the balx files in engineering-mgt/mpr-summary-dashboard/backend
 
 - Schedule daily_updater.balx to be executed once a day and pr_status_emailer.balx to be executed weekly.
 - Start the dashboard_services.balx in the background by issuing below in engineering-mgt/mpr-summary-dashboard/backend
 ``` 
-<Ballerina runtime>/bin/ballerina run daily_updater.balx
+  <Ballerina runtime>/bin/ballerina run daily_updater.balx
 ```
-Now the Merged PR dashboard backend is ready to be used. 
+- Now the Merged PR dashboard backend is ready to be used. 
