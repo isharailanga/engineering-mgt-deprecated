@@ -44,7 +44,7 @@ update.file=./update.date
 timer.schedule=0 0 10 ? * TUE *
 ```
 
-- Setup ballerina 0.964 runtime on a local folder
+- Setup [ballerina 0.964](https://drive.google.com/drive/folders/1mafkQ1zc4ZuxsgWwAll7Svdxhy7q5UkP) runtime on a local folder
 - Execute ```<Ballerina runtime>/bin/ballerina run engineering-mgt/mpr-summary-dashboard/backend/src/org/wso2/setup/setup.bal``` and save the generated token for future use.
 
 - From engineering-mgt/mpr-summary-dashboard/backend execute the following commands
