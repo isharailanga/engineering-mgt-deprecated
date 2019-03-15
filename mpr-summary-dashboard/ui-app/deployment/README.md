@@ -6,6 +6,8 @@ After a succeful build copy the engineering-mgt/mpr-summary-dashboard/ui-app/app
 
 Go to engineering-mgt/mpr-summary-dashboard/ui-app/deployment and issue the below command.
 
+```
 mvn clean install
+```
 
 The war file be created in engineering-mgt/mpr-summary-dashboard/ui-app/deployment/target directory. Copy the resulted mergedprs.war and place it in WSO2 Application Server. (Deployed and tested on [WSO2 AS 530](https://wso2.com/products/application-server/))
