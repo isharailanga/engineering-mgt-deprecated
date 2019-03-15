@@ -1,6 +1,6 @@
 # code-coverage-widget-backend
 
-This is to generate an backend service which will act as the backend of the Code coverage dashboard widget. 
+This acts as the backend of the Code coverage dashboard widget. 
 
 The widget will call the endpoints mentioned in this service and the service is responsible for database operations.
 
