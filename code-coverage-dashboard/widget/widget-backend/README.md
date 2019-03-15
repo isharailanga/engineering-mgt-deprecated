@@ -9,4 +9,4 @@ engineering-mgt/code-coverage-dashboard/widget/**widget-backend**
 ```
 mvn clean install
 ```
-Place the resulted target/**Code-Coverage-Service-1.0.0-SNAPSHOT.jar** in <SP_HOME>/libs
+Place the resulted target/**Code-Coverage-Service-1.0.0.jar** in <SP_HOME>/libs
