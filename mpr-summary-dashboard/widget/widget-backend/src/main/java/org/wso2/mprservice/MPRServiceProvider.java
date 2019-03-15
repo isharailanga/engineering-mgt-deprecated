@@ -38,6 +38,7 @@ import java.net.URISyntaxException;
 
 /**
  * This class is do the http actions to retrieve the data from ballerina backend for MPR Dashboard.
+ * The backend needs to be defined in <SP_HOME>/conf/dashboard/deployment.yaml
  **/
 public class MPRServiceProvider {
 
