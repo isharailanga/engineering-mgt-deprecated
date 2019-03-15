@@ -30,7 +30,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
- * This service will work as a interconnected.
+ * This is an intermediate service that acts as the widget backend.
  */
 
 public class MPRService implements Microservice {
