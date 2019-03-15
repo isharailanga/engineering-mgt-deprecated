@@ -5,7 +5,7 @@ To install the dependencies required to to build this app, navigate to the engin
 npm install
 ```
 
-Go to the engineering-mgt/mpr-summary-dashboard/ui-app/**app** directory and issue the following command to build the widget.
+In engineering-mgt/mpr-summary-dashboard/ui-app/**app** directory and issue the following command to build the widget.
 ```
 npm run build
 ```
