@@ -1,6 +1,6 @@
 # engineering-mgt
 
-This repo contains WSO2 Release Readiness Matrices Dashboards. 
+This repo contains WSO2 Release Readiness Metrics Dashboards. 
 
 ### Code Coverage Dashboard
 
