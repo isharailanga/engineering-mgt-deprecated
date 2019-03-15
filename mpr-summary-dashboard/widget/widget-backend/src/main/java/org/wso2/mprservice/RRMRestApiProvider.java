@@ -20,11 +20,17 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wso2.carbon.config.provider.ConfigProvider;
 import org.wso2.carbon.uiserver.api.App;
 import org.wso2.carbon.uiserver.spi.RestApiProvider;
+import org.wso2.mprservice.internal.DataHolder;
 import org.wso2.msf4j.Microservice;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,16 +45,16 @@ import java.util.Map;
 public class RRMRestApiProvider implements RestApiProvider {
 
     public static final String DASHBOARD_PORTAL_APP_NAME = "portal";
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestApiProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestApiProvider.class);
 
     @Activate
     protected void activate(BundleContext bundleContext) {
-        LOGGER.debug("{} activated.", this.getClass().getName());
+        logger.debug("{} activated.", this.getClass().getName());
     }
 
     @Deactivate
     protected void deactivate(BundleContext bundleContext) {
-        LOGGER.debug("{} deactivated.", this.getClass().getName());
+        logger.debug("{} deactivated.", this.getClass().getName());
     }
 
     @Override
@@ -59,10 +65,27 @@ public class RRMRestApiProvider implements RestApiProvider {
     @Override
     public Map<String, Microservice> getMicroservices(App app) {
 
-        LOGGER.info("MPR Service");
-        Map<String, Microservice> microservices = new HashMap<>(4);
+        logger.info("MPR Service");
+        Map<String, Microservice> microservices = new HashMap<>(1);
         microservices.put(MPRService.API_CONTEXT_PATH, new MPRService());
         return microservices;
+    }
+
+    @Reference(
+            name = "carbon.config.provider",
+            service = ConfigProvider.class,
+            cardinality = ReferenceCardinality.MANDATORY,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterConfigProvider"
+    )
+    protected void setConfigProvider(ConfigProvider configProvider) {
+
+        DataHolder.getInstance().setConfigProvider(configProvider);
+    }
+
+    protected void unregisterConfigProvider(ConfigProvider configProvider) {
+
+        DataHolder.getInstance().setConfigProvider(null);
     }
 
 }
