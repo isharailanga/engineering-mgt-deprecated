@@ -20,8 +20,12 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wso2.carbon.config.provider.ConfigProvider;
 import org.wso2.carbon.uiserver.api.App;
 import org.wso2.carbon.uiserver.spi.RestApiProvider;
 import org.wso2.msf4j.Microservice;
@@ -62,10 +66,26 @@ public class RRMRestApiProvider implements RestApiProvider {
     @Override
     public Map<String, Microservice> getMicroservices(App app) {
 
-        LOGGER.info("MPR Service");
+        LOGGER.info("Dependency Dashboard Service");
         Map<String, Microservice> microservices = new HashMap<>(4);
         microservices.put(DependencySummaryService.API_CONTEXT_PATH, new DependencySummaryService());
         return microservices;
     }
 
+    @Reference(
+            name = "carbon.config.provider",
+            service = ConfigProvider.class,
+            cardinality = ReferenceCardinality.MANDATORY,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterConfigProvider"
+    )
+    protected void setConfigProvider(ConfigProvider configProvider) {
+
+        DataHolder.getInstance().setConfigProvider(configProvider);
+    }
+
+    protected void unregisterConfigProvider(ConfigProvider configProvider) {
+
+        DataHolder.getInstance().setConfigProvider(null);
+    }
 }
