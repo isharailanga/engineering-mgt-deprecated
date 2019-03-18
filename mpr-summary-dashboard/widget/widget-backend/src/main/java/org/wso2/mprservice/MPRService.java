@@ -30,24 +30,23 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
- * This service will work as a interconnected.
+ * This is an intermediate service that acts as the widget backend.
  */
 
 public class MPRService implements Microservice {
     public static final String API_CONTEXT_PATH = "/apis/mprSummary";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MPRService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MPRService.class);
     private MPRServiceProvider mprServiceProvider = new MPRServiceProvider();
 
     @GET
     @Path("/products")
     @Produces({"application/json"})
     public Response retrieveProducts(@Context Request request) {
-        LOGGER.info("products endpoint hits");
         try {
             return okResponse(mprServiceProvider.retrieveProducts());
         } catch (Throwable throwable) {
-            LOGGER.error("Error occurred while " + throwable.getMessage(), throwable);
+            logger.error("Error occurred while " + throwable.getMessage(), throwable);
             return serverErrorResponse("Error occurred while retreving the response from server");
         }
     }
@@ -61,7 +60,7 @@ public class MPRService implements Microservice {
         try {
             return okResponse(mprServiceProvider.retrieveVersions(product));
         } catch (Throwable throwable) {
-            LOGGER.error("Error occurred while " + throwable.getMessage(), throwable);
+            logger.error("Error occurred while " + throwable.getMessage(), throwable);
             return serverErrorResponse("Error occurred while retreving the response from server");
         }
     }
@@ -76,7 +75,7 @@ public class MPRService implements Microservice {
         try {
             return okResponse(mprServiceProvider.retrievePRCountbyStatus(product, version));
         } catch (Throwable throwable) {
-            LOGGER.error("Error occurred while " + throwable.getMessage(), throwable);
+            logger.error("Error occurred while " + throwable.getMessage(), throwable);
             return serverErrorResponse("Error occurred while retreving the response from server");
         }
     }
@@ -92,7 +91,7 @@ public class MPRService implements Microservice {
         try {
             return okResponse(mprServiceProvider.retrieveTotalPRCount(product, version));
         } catch (Throwable throwable) {
-            LOGGER.error("Error occurred while " + throwable.getMessage(), throwable);
+            logger.error("Error occurred while " + throwable.getMessage(), throwable);
             return serverErrorResponse("Error occurred while retreving the response from server");
         }
     }

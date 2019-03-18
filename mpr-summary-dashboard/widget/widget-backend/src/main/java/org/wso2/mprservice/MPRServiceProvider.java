@@ -16,6 +16,7 @@
 
 package org.wso2.mprservice;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,6 +24,13 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.wso2.carbon.config.ConfigurationException;
+import org.wso2.carbon.uiserver.spi.RestApiProvider;
+import org.wso2.mprservice.beans.RRMConfigurations;
+import org.wso2.mprservice.internal.DataHolder;
+
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,17 +38,36 @@ import java.net.URISyntaxException;
 
 /**
  * This class is do the http actions to retrieve the data from ballerina backend for MPR Dashboard.
+ * The backend needs to be defined in <SP_HOME>/conf/dashboard/deployment.yaml
  **/
 public class MPRServiceProvider {
-    private static final String HOST_URL = "http://localhost:9090";
 
+    private static final Logger logger = LoggerFactory.getLogger(RestApiProvider.class);
+    private String hostUrl = "";
+
+    public MPRServiceProvider() {
+
+        try {
+            hostUrl = DataHolder.getInstance().getConfigProvider()
+                    .getConfigurationObject(RRMConfigurations.class).getMprBackendUrl();
+
+            if (StringUtils.isEmpty(hostUrl)) {
+                logger.info("No MPR dashboard backend URL defined.");
+            }
+
+        } catch (ConfigurationException e) {
+            String error = "Error occurred while reading configs from deployment.yaml. " + e.getMessage();
+            logger.info(error, e);
+        }
+
+    }
 
     public Object retrieveProducts() throws IOException, URISyntaxException {
 
         String response;
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            URIBuilder uriBuilder = new URIBuilder(HOST_URL + "/products");
+            URIBuilder uriBuilder = new URIBuilder(hostUrl + "/products");
             HttpGet httpGet = new HttpGet(uriBuilder.build());
 
             try (CloseableHttpResponse response1 = httpclient.execute(httpGet)) {
@@ -55,7 +82,7 @@ public class MPRServiceProvider {
         String response;
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            URIBuilder uriBuilder = new URIBuilder(HOST_URL + "/versions");
+            URIBuilder uriBuilder = new URIBuilder(hostUrl + "/versions");
             uriBuilder.addParameter("product", product);
 
             HttpGet httpGet = new HttpGet(uriBuilder.build());
@@ -71,7 +98,7 @@ public class MPRServiceProvider {
 
         String response;
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            URI uri = new URI(HOST_URL + "/prcount");
+            URI uri = new URI(hostUrl + "/prcount");
 
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.addParameter("product", product);
@@ -91,7 +118,7 @@ public class MPRServiceProvider {
 
         String response;
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            URI uri = new URI(HOST_URL + "/totalprcount");
+            URI uri = new URI(hostUrl + "/totalprcount");
 
             URIBuilder uriBuilder = new URIBuilder(uri);
             uriBuilder.addParameter("product", product);

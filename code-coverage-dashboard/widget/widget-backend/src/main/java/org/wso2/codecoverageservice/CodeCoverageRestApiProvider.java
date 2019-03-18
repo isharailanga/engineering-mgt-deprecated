@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.wso2.mprservice;
+package org.wso2.codecoverageservice;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wso2.carbon.datasource.core.api.DataSourceService;
+import org.wso2.carbon.datasource.core.exception.DataSourceException;
 import org.wso2.carbon.uiserver.api.App;
 import org.wso2.carbon.uiserver.spi.RestApiProvider;
+import org.wso2.codecoverageservice.utils.DataValueHolder;
 import org.wso2.msf4j.Microservice;
 
 import java.util.HashMap;
@@ -34,9 +41,8 @@ import java.util.Map;
  *
  * @since 0.0.1-SNAPSHOT
  */
-@Component(service = RestApiProvider.class,
-        immediate = true)
-public class RRMRestApiProvider implements RestApiProvider {
+@Component(service = RestApiProvider.class, immediate = true)
+public class CodeCoverageRestApiProvider implements RestApiProvider {
 
     public static final String DASHBOARD_PORTAL_APP_NAME = "portal";
     private static final Logger LOGGER = LoggerFactory.getLogger(RestApiProvider.class);
@@ -58,11 +64,31 @@ public class RRMRestApiProvider implements RestApiProvider {
 
     @Override
     public Map<String, Microservice> getMicroservices(App app) {
-
-        LOGGER.info("MPR Service");
-        Map<String, Microservice> microservices = new HashMap<>(4);
-        microservices.put(MPRService.API_CONTEXT_PATH, new MPRService());
+        Map<String, Microservice> microservices = new HashMap<>(1);
+        microservices.put(CodeCoverageService.API_CONTEXT_PATH, new CodeCoverageService());
+        LOGGER.info("Code coverage service started.");
         return microservices;
     }
 
+    @Reference(
+            name = "org.wso2.carbon.datasource.DataSourceService",
+            service = DataSourceService.class,
+            cardinality = ReferenceCardinality.AT_LEAST_ONE,
+            policy = ReferencePolicy.DYNAMIC,
+            unbind = "unregisterDataSourceService"
+    )
+
+    protected void onDataSourceServiceReady(DataSourceService dataSourceService) {
+        try {
+            HikariDataSource dsObject = (HikariDataSource) dataSourceService.getDataSource("RRMDatasource");
+            DataValueHolder.getInstance().setDataSource(dsObject);
+            LOGGER.info("RRMDatasource object set.");
+        } catch (DataSourceException e) {
+            LOGGER.error("error occurred while fetching the data source.", e);
+        }
+    }
+
+    protected void unregisterDataSourceService(DataSourceService dataSourceService) {
+        LOGGER.info("Unregistering data sources sample.");
+    }
 }
