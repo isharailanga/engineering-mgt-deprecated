@@ -18,7 +18,7 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <javax.servlet.version>4.0.1</javax.servlet.version>
-    <nimbus.jose.version>5.13</nimbus.jose.version>
+    <nimbus.jose.version>7.9</nimbus.jose.version>
   </properties>
 
   <dependencies>
